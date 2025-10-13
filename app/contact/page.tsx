@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import ContactForm from '@/components/ContactForm'
 import { getServices } from '@/lib/cosmic'
+import type { Service } from '@/types'
 
 export const metadata = {
   title: 'Contact Us - Book Your Service | Dog Walkers Inc.',
