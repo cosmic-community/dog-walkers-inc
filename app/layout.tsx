@@ -26,7 +26,6 @@ export default function RootLayout({
           <script src="/dashboard-console-capture.js"></script>
         </head>
         <body className={inter.className}>
-      <body className={inter.className}>
         <Header />
         <main className="min-h-screen">
           {children}
