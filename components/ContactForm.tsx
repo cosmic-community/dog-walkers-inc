@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import type { Service } from '@/types'
 
 interface ContactFormProps {
@@ -8,12 +9,15 @@ interface ContactFormProps {
 }
 
 export default function ContactForm({ services }: ContactFormProps) {
+  const searchParams = useSearchParams()
+  const preSelectedService = searchParams.get('service')
+  
   const [formData, setFormData] = useState({
     client_name: '',
     email: '',
     phone: '',
     dog_name: '',
-    service_type: '',
+    service_type: preSelectedService || '',
     preferred_date: '',
     message: ''
   })
@@ -22,6 +26,15 @@ export default function ContactForm({ services }: ContactFormProps) {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState('')
 
+  // Update service_type when preSelectedService changes
+  useEffect(() => {
+    if (preSelectedService && preSelectedService !== formData.service_type) {
+      setFormData(prev => ({
+        ...prev,
+        service_type: preSelectedService
+      }))
+    }
+  }, [preSelectedService])
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
