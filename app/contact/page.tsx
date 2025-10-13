@@ -1,6 +1,6 @@
+import { Suspense } from 'react'
 import ContactForm from '@/components/ContactForm'
 import { getServices } from '@/lib/cosmic'
-import type { Service } from '@/types'
 
 export const metadata = {
   title: 'Contact Us - Book Your Service | Dog Walkers Inc.',
@@ -37,7 +37,13 @@ export default async function ContactPage() {
               <h2 className="text-2xl font-bold text-gray-900 mb-6">
                 Schedule Your First Walk
               </h2>
-              <ContactForm services={services} />
+                <Suspense fallback={
+                  <div className="flex items-center justify-center py-8">
+                    <div className="text-gray-600">Loading form...</div>
+                  </div>
+                }>
+                  <ContactForm services={services} />
+                </Suspense>
             </div>
           </div>
         </div>
