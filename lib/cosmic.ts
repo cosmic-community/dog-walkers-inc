@@ -20,11 +20,13 @@ export async function getServices() {
       .props(['id', 'title', 'slug', 'metadata'])
       .depth(1)
     
-    return objects
+    // Ensure we return an array even if objects is undefined
+    return objects || []
   } catch (error) {
     if (hasStatus(error) && error.status === 404) {
       return []
     }
+    console.error('Error fetching services:', error)
     throw error
   }
 }

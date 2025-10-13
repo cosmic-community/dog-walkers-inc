@@ -10,7 +10,8 @@ export const metadata = {
 export const revalidate = 60
 
 export default async function ContactPage() {
-  const services = await getServices() as Service[]
+  const servicesData = await getServices()
+  const services = (servicesData || []) as Service[]
   
   return (
     <div className="min-h-screen bg-gray-50">

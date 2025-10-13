@@ -161,12 +161,16 @@ export default function ContactForm({ services }: ContactFormProps) {
             required
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
           >
-            <option value="">Select a service</option>
-            {services.map((service) => (
-              <option key={service.id} value={service.metadata.service_name}>
-                {service.metadata.service_name} - {service.metadata.price}
-              </option>
-            ))}
+              <option value="">Select a service</option>
+              {services && services.length > 0 ? (
+                services.map((service) => (
+                  <option key={service.id} value={service.metadata?.service_name || ''}>
+                    {service.metadata?.service_name || 'Unknown Service'} - {service.metadata?.price || 'N/A'}
+                  </option>
+                ))
+              ) : (
+                <option value="" disabled>No services available</option>
+              )}
           </select>
         </div>
 
