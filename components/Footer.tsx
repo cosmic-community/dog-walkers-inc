@@ -54,11 +54,16 @@ export default function Footer() {
                   Our Team
                 </Link>
               </li>
-              <li>
-                <Link href="/testimonials" className="hover:text-white transition-colors">
-                  Testimonials
-                </Link>
-              </li>
+                <li>
+                  <Link href="/testimonials" className="hover:text-white transition-colors">
+                    Testimonials
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/contact" className="hover:text-white transition-colors">
+                    Contact
+                  </Link>
+                </li>
             </ul>
           </div>
           

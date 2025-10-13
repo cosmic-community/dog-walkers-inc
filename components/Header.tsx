@@ -27,12 +27,15 @@ export default function Header() {
             <Link href="/team" className="text-gray-700 hover:text-primary font-medium transition-colors">
               Our Team
             </Link>
-            <Link href="/testimonials" className="text-gray-700 hover:text-primary font-medium transition-colors">
-              Testimonials
-            </Link>
-            <button className="px-6 py-2 bg-secondary hover:bg-secondary/90 text-white font-semibold rounded-lg transition-colors">
-              Book Now
-            </button>
+              <Link href="/testimonials" className="text-gray-700 hover:text-primary font-medium transition-colors">
+                Testimonials
+              </Link>
+              <Link href="/contact" className="text-gray-700 hover:text-primary font-medium transition-colors">
+                Contact
+              </Link>
+              <Link href="/contact" className="px-6 py-2 bg-secondary hover:bg-secondary/90 text-white font-semibold rounded-lg transition-colors">
+                Book Now
+              </Link>
           </div>
           
           {/* Mobile Menu Button */}
@@ -76,16 +79,27 @@ export default function Header() {
               >
                 Our Team
               </Link>
-              <Link 
-                href="/testimonials" 
-                className="text-gray-700 hover:text-primary font-medium transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Testimonials
-              </Link>
-              <button className="px-6 py-2 bg-secondary hover:bg-secondary/90 text-white font-semibold rounded-lg transition-colors">
-                Book Now
-              </button>
+                <Link 
+                  href="/testimonials" 
+                  className="text-gray-700 hover:text-primary font-medium transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Testimonials
+                </Link>
+                <Link 
+                  href="/contact" 
+                  className="text-gray-700 hover:text-primary font-medium transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Contact
+                </Link>
+                <Link 
+                  href="/contact"
+                  className="px-6 py-2 bg-secondary hover:bg-secondary/90 text-white font-semibold rounded-lg transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Book Now
+                </Link>
             </div>
           </div>
         )}

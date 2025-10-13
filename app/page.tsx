@@ -174,11 +174,12 @@ export default async function HomePage() {
             Book your first walk today and see why pet owners trust us with their furry family members.
           </p>
           <Link
-            href="/services"
-            className="inline-flex items-center px-8 py-4 bg-white hover:bg-gray-100 text-secondary font-semibold rounded-lg transition-colors"
-          >
-            Get Started
-          </Link>
+            <Link
+              href="/contact"
+              className="inline-flex items-center px-8 py-4 bg-white hover:bg-gray-100 text-secondary font-semibold rounded-lg transition-colors"
+            >
+              Book Your First Walk
+            </Link>
         </div>
       </section>
     </div>
