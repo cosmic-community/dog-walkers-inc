@@ -173,7 +173,6 @@ export default async function HomePage() {
           <p className="text-xl mb-8 text-orange-100 max-w-2xl mx-auto">
             Book your first walk today and see why pet owners trust us with their furry family members.
           </p>
-          <Link
             <Link
               href="/contact"
               className="inline-flex items-center px-8 py-4 bg-white hover:bg-gray-100 text-secondary font-semibold rounded-lg transition-colors"
