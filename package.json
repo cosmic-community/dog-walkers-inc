@@ -15,7 +15,9 @@
     "next": "15.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "@cosmicjs/sdk": "^1.5.5"
+    "@cosmicjs/sdk": "^1.5.5",
+    "stripe": "^14.11.0",
+    "lucide-react": "^0.344.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
