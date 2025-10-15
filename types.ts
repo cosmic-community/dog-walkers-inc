@@ -96,3 +96,27 @@ export interface BookingSubmission extends CosmicObject {
 export function isBookingSubmission(obj: CosmicObject): obj is BookingSubmission {
   return obj.type === 'booking-submissions';
 }
+
+// Order interface for completed Stripe payments
+export interface Order extends CosmicObject {
+  type: 'orders';
+  metadata: {
+    client_name: string;
+    email: string;
+    phone: string;
+    dog_name: string;
+    service_type: string;
+    service_price: string;
+    preferred_date: string;
+    message?: string;
+    stripe_session_id: string;
+    stripe_payment_intent: string;
+    payment_status: string;
+    amount_total: number;
+    currency: string;
+  };
+}
+
+export function isOrder(obj: CosmicObject): obj is Order {
+  return obj.type === 'orders';
+}

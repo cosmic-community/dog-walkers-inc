@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { submitBooking } from '@/app/actions/booking'
 import type { Service } from '@/types'
 
 interface BookingFormProps {
@@ -25,28 +24,40 @@ export default function BookingForm({ services, preselectedService }: BookingFor
     setMessage(null)
 
     const formData = new FormData(event.currentTarget)
-    const formElement = event.currentTarget // Changed: Capture form reference before async operations
     
     try {
-      const result = await submitBooking(formData) as BookingResult
-      
-      if (result.success) {
-        setMessage({ type: 'success', text: 'Booking request submitted successfully! We\'ll contact you soon.' })
-        // Reset form using captured reference
-        formElement.reset() // Changed: Use captured form reference instead of event.currentTarget
+      // Create checkout session
+      const response = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          clientName: formData.get('client_name'),
+          email: formData.get('email'),
+          phone: formData.get('phone'),
+          dogName: formData.get('dog_name'),
+          serviceType: formData.get('service_type'),
+          preferredDate: formData.get('preferred_date'),
+          message: formData.get('message'),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.url) {
+        // Redirect to Stripe Checkout
+        window.location.href = data.url;
       } else {
-        // Show detailed error message for debugging
-        const errorText = result.details 
-          ? `${result.error}\n\nDebug info: ${result.details}`
-          : result.error || 'Failed to submit booking. Please try again.'
-        
-        setMessage({ type: 'error', text: errorText })
-        console.error('Booking submission failed:', result)
+        setMessage({ 
+          type: 'error', 
+          text: data.error || 'Failed to create checkout session. Please try again.' 
+        });
       }
     } catch (error) {
-      console.error('Unexpected error:', error)
-      const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred'
-      setMessage({ type: 'error', text: `An unexpected error occurred: ${errorMessage}` })
+      console.error('Unexpected error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
+      setMessage({ type: 'error', text: `An unexpected error occurred: ${errorMessage}` });
     } finally {
       setIsSubmitting(false)
     }
@@ -183,7 +194,7 @@ export default function BookingForm({ services, preselectedService }: BookingFor
         disabled={isSubmitting}
         className="w-full px-6 py-4 bg-primary hover:bg-primary/90 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {isSubmitting ? 'Submitting...' : 'Submit Booking Request'}
+        {isSubmitting ? 'Processing...' : 'Proceed to Payment'}
       </button>
     </form>
   )
