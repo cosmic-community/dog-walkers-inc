@@ -39,10 +39,16 @@ export async function submitBooking(formData: FormData) {
       serviceName = servicesResponse.object?.metadata?.service_name || servicesResponse.object?.title || 'Unknown Service'
     } catch (serviceError) {
       console.error('Error fetching service:', serviceError)
-      // Continue with booking even if service lookup fails
+      return {
+        success: false,
+        error: 'Invalid service selected',
+        details: 'The selected service could not be found. Please refresh the page and try again.'
+      }
     }
 
     // Create the booking submission in Cosmic
+    // CRITICAL: For select-dropdown metafields, we must use the display value (service_name)
+    // not the slug or key. The API expects values like "Basic Walk", "Puppy Care", etc.
     const result = await cosmic.objects.insertOne({
       title: `${clientName} - ${serviceName}`,
       type: 'booking-submissions',
@@ -51,7 +57,7 @@ export async function submitBooking(formData: FormData) {
         email: email,
         phone: phone,
         dog_name: dogName,
-        service_type: serviceTypeSlug,
+        service_type: serviceName, // Changed: Use service_name (display value) instead of slug
         preferred_date: preferredDate,
         message: message,
         status: 'New'
