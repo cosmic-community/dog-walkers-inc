@@ -9,6 +9,12 @@ interface BookingFormProps {
   preselectedService: string
 }
 
+interface BookingResult {
+  success: boolean
+  error?: string
+  details?: string
+}
+
 export default function BookingForm({ services, preselectedService }: BookingFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
@@ -21,17 +27,25 @@ export default function BookingForm({ services, preselectedService }: BookingFor
     const formData = new FormData(event.currentTarget)
     
     try {
-      const result = await submitBooking(formData)
+      const result = await submitBooking(formData) as BookingResult
       
       if (result.success) {
         setMessage({ type: 'success', text: 'Booking request submitted successfully! We\'ll contact you soon.' })
         // Reset form
         event.currentTarget.reset()
       } else {
-        setMessage({ type: 'error', text: result.error || 'Failed to submit booking. Please try again.' })
+        // Show detailed error message for debugging
+        const errorText = result.details 
+          ? `${result.error}\n\nDebug info: ${result.details}`
+          : result.error || 'Failed to submit booking. Please try again.'
+        
+        setMessage({ type: 'error', text: errorText })
+        console.error('Booking submission failed:', result)
       }
     } catch (error) {
-      setMessage({ type: 'error', text: 'An unexpected error occurred. Please try again.' })
+      console.error('Unexpected error:', error)
+      const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred'
+      setMessage({ type: 'error', text: `An unexpected error occurred: ${errorMessage}` })
     } finally {
       setIsSubmitting(false)
     }
@@ -48,7 +62,7 @@ export default function BookingForm({ services, preselectedService }: BookingFor
               : 'bg-red-50 text-red-800 border border-red-200'
           }`}
         >
-          {message.text}
+          <pre className="whitespace-pre-wrap text-sm">{message.text}</pre>
         </div>
       )}
 
