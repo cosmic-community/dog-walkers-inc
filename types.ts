@@ -71,3 +71,28 @@ export function isTeamMember(obj: CosmicObject): obj is TeamMember {
 export function isTestimonial(obj: CosmicObject): obj is Testimonial {
   return obj.type === 'testimonials';
 }
+
+// Booking Submission interface
+export interface BookingSubmission extends CosmicObject {
+  type: 'booking-submissions';
+  metadata: {
+    client_name: string;
+    email: string;
+    phone: string;
+    dog_name: string;
+    service_type: {
+      key: string;
+      value: string;
+    };
+    preferred_date: string;
+    message?: string;
+    status: {
+      key: string;
+      value: string;
+    };
+  };
+}
+
+export function isBookingSubmission(obj: CosmicObject): obj is BookingSubmission {
+  return obj.type === 'booking-submissions';
+}

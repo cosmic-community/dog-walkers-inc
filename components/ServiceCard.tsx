@@ -1,5 +1,5 @@
+import Link from 'next/link'
 import type { Service } from '@/types'
-
 interface ServiceCardProps {
   service: Service;
 }
@@ -43,9 +43,12 @@ export default function ServiceCard({ service }: ServiceCardProps) {
           dangerouslySetInnerHTML={{ __html: description }}
         />
         
-        <button className="mt-6 w-full px-6 py-3 bg-primary hover:bg-primary/90 text-white font-semibold rounded-lg transition-colors">
-          Book This Service
-        </button>
+          <Link 
+            href={`/book?service=${service.slug}`}
+            className="mt-6 w-full px-6 py-3 bg-primary hover:bg-primary/90 text-white font-semibold rounded-lg transition-colors block text-center"
+          >
+            Book This Service
+          </Link>
       </div>
     </div>
   )
