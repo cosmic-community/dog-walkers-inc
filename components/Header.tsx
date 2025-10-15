@@ -18,10 +18,11 @@ export default function Header() {
 
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex items-center gap-8">
+            <Link href="/about" className="hover:text-primary transition-colors">About</Link>
             <Link href="/services" className="hover:text-primary transition-colors">Services</Link>
-            <Link href="/book" className="hover:text-primary transition-colors">Book Now</Link>
             <Link href="/team" className="hover:text-primary transition-colors">Team</Link>
             <Link href="/testimonials" className="hover:text-primary transition-colors">Testimonials</Link>
+            <Link href="/book" className="hover:text-primary transition-colors">Book Now</Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -45,18 +46,18 @@ export default function Header() {
           <div className="md:hidden mt-4 pb-4 border-t border-gray-200 pt-4">
             <div className="flex flex-col gap-4">
               <Link 
+                href="/about" 
+                className="hover:text-primary transition-colors py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                About
+              </Link>
+              <Link 
                 href="/services" 
                 className="hover:text-primary transition-colors py-2"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Services
-              </Link>
-              <Link 
-                href="/book" 
-                className="hover:text-primary transition-colors py-2"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Book Now
               </Link>
               <Link 
                 href="/team" 
@@ -71,6 +72,13 @@ export default function Header() {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Testimonials
+              </Link>
+              <Link 
+                href="/book" 
+                className="hover:text-primary transition-colors py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Book Now
               </Link>
             </div>
           </div>
