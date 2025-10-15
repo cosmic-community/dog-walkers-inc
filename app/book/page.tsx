@@ -10,10 +10,12 @@ export const metadata = {
 export default async function BookPage({
   searchParams,
 }: {
-  searchParams: { service?: string }
+  searchParams: Promise<{ service?: string }>
 }) {
+  // IMPORTANT: In Next.js 15+, searchParams are now Promises and MUST be awaited
+  const params = await searchParams
   const services = await getServices() as Service[]
-  const preselectedService = searchParams.service || ''
+  const preselectedService = params.service || ''
 
   return (
     <div className="py-16">
