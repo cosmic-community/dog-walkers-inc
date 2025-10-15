@@ -25,14 +25,15 @@ export default function BookingForm({ services, preselectedService }: BookingFor
     setMessage(null)
 
     const formData = new FormData(event.currentTarget)
+    const formElement = event.currentTarget // Changed: Capture form reference before async operations
     
     try {
       const result = await submitBooking(formData) as BookingResult
       
       if (result.success) {
         setMessage({ type: 'success', text: 'Booking request submitted successfully! We\'ll contact you soon.' })
-        // Reset form
-        event.currentTarget.reset()
+        // Reset form using captured reference
+        formElement.reset() // Changed: Use captured form reference instead of event.currentTarget
       } else {
         // Show detailed error message for debugging
         const errorText = result.details 
