@@ -19,16 +19,31 @@ export async function submitBooking(formData: FormData) {
     const preferredDate = formData.get('preferred_date') as string
     const message = formData.get('message') as string || ''
 
-    // Get the service to find its display name
-    const servicesResponse = await cosmic.objects.findOne({
-      type: 'services',
-      slug: serviceTypeSlug
-    }).props(['id', 'metadata'])
+    // Validate required fields
+    if (!clientName || !email || !phone || !dogName || !serviceTypeSlug || !preferredDate) {
+      return { 
+        success: false, 
+        error: 'Missing required fields',
+        details: 'Please fill in all required fields'
+      }
+    }
 
-    const serviceName = servicesResponse.object?.metadata?.service_name || 'Unknown Service'
+    // Get the service to find its display name
+    let serviceName = 'Unknown Service'
+    try {
+      const servicesResponse = await cosmic.objects.findOne({
+        type: 'services',
+        slug: serviceTypeSlug
+      }).props(['id', 'title', 'metadata'])
+
+      serviceName = servicesResponse.object?.metadata?.service_name || servicesResponse.object?.title || 'Unknown Service'
+    } catch (serviceError) {
+      console.error('Error fetching service:', serviceError)
+      // Continue with booking even if service lookup fails
+    }
 
     // Create the booking submission in Cosmic
-    await cosmic.objects.insertOne({
+    const result = await cosmic.objects.insertOne({
       title: `${clientName} - ${serviceName}`,
       type: 'booking-submissions',
       metadata: {
@@ -36,22 +51,24 @@ export async function submitBooking(formData: FormData) {
         email: email,
         phone: phone,
         dog_name: dogName,
-        service_type: {
-          key: serviceTypeSlug,
-          value: serviceName
-        },
+        service_type: serviceTypeSlug,
         preferred_date: preferredDate,
         message: message,
-        status: {
-          key: 'new',
-          value: 'New'
-        }
+        status: 'New'
       }
     })
 
+    console.log('Booking created successfully:', result.object?.id)
     return { success: true }
   } catch (error) {
     console.error('Error submitting booking:', error)
-    return { success: false, error: 'Failed to submit booking' }
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    const errorDetails = error instanceof Error ? error.stack : JSON.stringify(error)
+    
+    return { 
+      success: false, 
+      error: 'Failed to submit booking',
+      details: `${errorMessage}\n\nStack: ${errorDetails}`
+    }
   }
 }
