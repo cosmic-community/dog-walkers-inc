@@ -6,6 +6,7 @@ export const metadata = {
 }
 
 export default function AboutPage() {
+  console.log('LFG!!!')
   return (
     <div className="py-16">
       <div className="container mx-auto px-4">
